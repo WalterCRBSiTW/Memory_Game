@@ -31,7 +31,7 @@
         border-width: 2px;
         border-color: white;
         font-size: 50px;
-        color:white;
+        color: white;
         line-height: 95px;
         text-align: center;
       }
@@ -43,7 +43,9 @@
   <body>
     <div class="container">
       <h2 class="text-center text-white my-3">記憶遊戲</h2>
-      <h3 id ="timer" class="text-center text-white mt-2 mb-2">請在規定時間內完成</h3>
+      <h3 id="timer" class="text-center text-white mt-2 mb-2">
+        請在規定時間內完成
+      </h3>
       <div class="row justify-content-center">
         <div class="card" onclick="cardDisplay(0)"></div>
         <div class="card" onclick="cardDisplay(1)"></div>
@@ -71,20 +73,20 @@
     </div>
     <div class="row justify-content-center">
       <button id="start" type="button" class="btn btn-secondary">START</button>
-    </div>   
+    </div>
     <script>
       var cards1 = [];
       var cards2 = [];
       var cards = [];
       var card = document.getElementsByClassName("card");
       var time = 0;
-      var start = document.getElementById("start").onclick = function() {
+      var start = (document.getElementById("start").onclick = function() {
         doStart();
         alert("Game starts, Time 30 seconds");
-        clearTimeout(clear);    //清除原本的計時器
+        clearTimeout(clear); //清除原本的計時器
         time = 30000;
-        Mytimer();             //開始新的計時
-      }
+        Mytimer(); //開始新的計時
+      });
       //開始遊戲
       function doStart() {
         $($(".card")).css("visibility", "visible");
@@ -93,19 +95,20 @@
         cards2 = [];
         // document.getElementsByClassName("card").style.visibility = "hidden";
         // document.getElementsByClassName("card").style.color = "gray";
-        var nub = 0; 
-        for(var i = 0; i < 8; i++) {
+        var nub = 0;
+        for (var i = 0; i < 8; i++) {
           nub = Math.floor(Math.random() * 13);
-          while(cards1.indexOf(nub) != -1) {  //indexOf判斷數字有沒有重複  != -1??????????
-            nub = Math.floor(Math.random() * 13);      //如果有重複，再跑一次亂數
+          while (cards1.indexOf(nub) != -1) {
+            //indexOf判斷數字有沒有重複  != -1??????????
+            nub = Math.floor(Math.random() * 13); //如果有重複，再跑一次亂數
           }
           cards1[i] = nub;
           cards2[i] = nub;
         }
         // console.log(cards1);
         // console.log(cards2);
-        cards = cards1.concat(cards2);                   //合併陣列 拿到 16個 遊戲數字
-        cards.sort(randomsort);                          // 打亂陣列;
+        cards = cards1.concat(cards2); //合併陣列 拿到 16個 遊戲數字
+        cards.sort(randomsort); // 打亂陣列;
         console.log(cards);
       }
       // 打亂陣列;
@@ -118,66 +121,65 @@
       var tamp_1 = 0;
       var tamp_2 = 0;
       var cardNum_1 = 0;
-      var cardNum_2 = 0; 
-      function cardDisplay(k) { 
-        
-        bout++;
-        if(bout == 2) { 
-          $($(".card")[k]).css("background", "black");
-          $($(".card")[k]).text(cards[k]);         //將位置上的數字印出  
-          tamp_2 = cards[k];
-          cardNum_2 = k;
-          
-          if(tamp_1 == tamp_2) {
-            setTimeout(doTure, 800);  
-          }
-          else {
-            setTimeout(doFalse, 800);   
+      var cardNum_2 = 0;
+      function cardDisplay(k) {
+        if (cards[k] != null) {
+          bout++;
+          if (bout == 2) {
+            $($(".card")[k]).css("background", "black");
+            $($(".card")[k]).text(cards[k]); //將位置上的數字印出
+            tamp_2 = cards[k];
+            cardNum_2 = k;
+
+            if (tamp_1 == tamp_2) {
+              setTimeout(doTure, 800);
+            } else {
+              setTimeout(doFalse, 800);
             }
-        }
-        else if(bout == 1){
-          $($(".card")[k]).css("background", "black");
-          $($(".card")[k]).text(cards[k]);         
-          tamp_1 = cards[k];
-          cardNum_1 = k;
+          } else if (bout == 1) {
+            $($(".card")[k]).css("background", "black");
+            $($(".card")[k]).text(cards[k]);
+            tamp_1 = cards[k];
+            cardNum_1 = k;
+          }
         }
       }
 
       function doTure() {
-        $(".card").text(""); 
+        $(".card").text("");
         $($(".card")[cardNum_1]).css("visibility", "hidden");
         $($(".card")[cardNum_2]).css("visibility", "hidden");
-        bout = 0;     //防止翻牌超過 2次 
+        bout = 0; //防止翻牌超過 2次
         count++;
-            if(count == 8) {
-              count = 0;
-              alert("恭喜過關!!!");
-              clearTimeout(clear);    //清除原本的計時器
-            }   
+        if (count == 8) {
+          count = 0;
+          alert("恭喜過關!!!");
+          clearTimeout(clear); //清除原本的計時器
+        }
       }
       function doFalse() {
         $(".card").text("");
         $($(".card")[cardNum_1]).css("background-color", "rgb(228, 168, 38)");
         $($(".card")[cardNum_2]).css("background-color", "rgb(228, 168, 38)");
-        bout = 0;    //防止翻牌超過 2次
+        bout = 0; //防止翻牌超過 2次
       }
       //隱藏牌組
-      
-     //倒數 30 秒
-      var clear;
-      function Mytimer() {   //計時器
-        
-        if(time<=0) {    //倒數完成
-          $("#timer").text((time/1000) + " sec...");
-          alert("遊戲失敗 !!!");    
-        }
-        else {
-          $("#timer").text((time/1000) + " sec...");    //印出文字
-        clear = setTimeout(Mytimer, 1000);
-        } 
-        time-=1000; 
-      };
 
+      //倒數 30 秒
+      var clear;
+      function Mytimer() {
+        //計時器
+
+        if (time <= 0) {
+          //倒數完成
+          $("#timer").text(time / 1000 + " sec...");
+          alert("遊戲失敗 !!!");
+        } else {
+          $("#timer").text(time / 1000 + " sec..."); //印出文字
+          clear = setTimeout(Mytimer, 1000);
+        }
+        time -= 1000;
+      }
     </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
