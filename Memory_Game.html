@@ -43,7 +43,7 @@
   <body>
     <div class="container">
       <h2 class="text-center text-white my-3">記憶遊戲</h2>
-      <h3 class="text-center text-white mt-2 mb-2">請在規定時間內完成</h3>
+      <h3 id ="timer" class="text-center text-white mt-2 mb-2">請在規定時間內完成</h3>
       <div class="row justify-content-center">
         <div class="card" onclick="cardDisplay(0)"></div>
         <div class="card" onclick="cardDisplay(1)"></div>
@@ -77,10 +77,13 @@
       var cards2 = [];
       var cards = [];
       var card = document.getElementsByClassName("card");
-      
-      document.getElementById("start").onclick = function() {
+      var time = 0;
+      var start = document.getElementById("start").onclick = function() {
         doStart();
         alert("Game starts, Time 30 seconds");
+        clearTimeout(clear);    //清除原本的計時器
+        time = 30000;
+        Mytimer();             //開始新的計時
       }
       //開始遊戲
       function doStart() {
@@ -111,44 +114,62 @@
         //用Math.random()函式生成0~1之間的隨機數與0.5比較，返回-1或1 ?:如果 不是 則是
       }
       var bout = 0;
+      var count = 0;
       var tamp_1 = 0;
       var tamp_2 = 0;
       var cardNum_1 = 0;
       var cardNum_2 = 0; 
       function cardDisplay(k) {
-          $($(".card")[k]).text(cards[k]);         //將位置上的數字印出   問裕倫!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
         bout++;
-        if(bout == 2) {
-          bout = 0;
+        if(bout == 2) { 
+          $($(".card")[k]).text(cards[k]);         //將位置上的數字印出  
           tamp_2 = cards[k];
           cardNum_2 = k;
           
           if(tamp_1 == tamp_2) {
-            setTimeout(doTure, hiddenNub(cardNum_1, cardNum_2), 1000);
+            setTimeout(doTure, 1000);  
           }
           else {
-            setTimeout(doFalse, 1000);
-          }
+            setTimeout(doFalse, 1000);   
+            }
         }
-        else {
+        else if(bout == 1){
+          $($(".card")[k]).text(cards[k]);         
           tamp_1 = cards[k];
           cardNum_1 = k;
-          // $(".card").text("");
         }
       }
 
       function doTure() {
-        $(".card").text("");
+        $(".card").text(""); 
+        $($(".card")[cardNum_1]).css("visibility", "hidden");
+        $($(".card")[cardNum_2]).css("visibility", "hidden");
+        bout = 0;     //防止翻牌超過 2次 
+        count++;
+            if(count == 8) {
+              count = 0;
+              alert("恭喜過關!!!");
+            }   
       }
       function doFalse() {
         $(".card").text("");
+        bout = 0;    //防止翻牌超過 2次
       }
-      function hiddenNub(cardNum_1, cardNum_2) {
-        $($(".card")[cardNum_1]).css("visibility", "hidden");
-        $($(".card")[cardNum_2]).css("visibility", "hidden");
-      }
+      //隱藏牌組
       
+     //倒數 30 秒
+      var clear;
+      function Mytimer() {   //計時器
+        
+        if(time<=0) {    //倒數完成
+          alert("遊戲失敗 !!!");    
+        }
+        else {
+          $("#timer").text((time/1000) + " sec...");    //印出文字
+        clear = setTimeout(Mytimer, 1000);
+        } 
+        time-=1000; 
+      };
 
     </script>
     <!-- Optional JavaScript -->
