@@ -91,8 +91,6 @@
         cards2 = [];
         // document.getElementsByClassName("card").style.visibility = "hidden";
         // document.getElementsByClassName("card").style.color = "gray";
-        $(".card").css("visibility", "visible");   
-        $(".card").css("color", "withe");
         var nub = 0; 
         for(var i = 0; i < 8; i++) {
           nub = Math.floor(Math.random() * 13);
@@ -119,7 +117,9 @@
       var tamp_2 = 0;
       var cardNum_1 = 0;
       var cardNum_2 = 0; 
-      function cardDisplay(k) {
+      function cardDisplay(k) { 
+        document.getElementsByClassName("card")[k].style.background = "black";
+
         bout++;
         if(bout == 2) { 
           $($(".card")[k]).text(cards[k]);         //將位置上的數字印出  
@@ -149,10 +149,13 @@
             if(count == 8) {
               count = 0;
               alert("恭喜過關!!!");
+              clearTimeout(clear);    //清除原本的計時器
             }   
       }
       function doFalse() {
         $(".card").text("");
+        $($(".card")[cardNum_1]).css("background-color", "rgb(228, 168, 38)");
+        $($(".card")[cardNum_2]).css("background-color", "rgb(228, 168, 38)");
         bout = 0;    //防止翻牌超過 2次
       }
       //隱藏牌組
@@ -162,6 +165,7 @@
       function Mytimer() {   //計時器
         
         if(time<=0) {    //倒數完成
+          $("#timer").text((time/1000) + " sec...");
           alert("遊戲失敗 !!!");    
         }
         else {
