@@ -87,6 +87,8 @@
       }
       //開始遊戲
       function doStart() {
+        $($(".card")).css("visibility", "visible");
+        $($(".card")).css("background", "rgb(228, 168, 38)");
         cards1 = [];
         cards2 = [];
         // document.getElementsByClassName("card").style.visibility = "hidden";
@@ -118,22 +120,23 @@
       var cardNum_1 = 0;
       var cardNum_2 = 0; 
       function cardDisplay(k) { 
-        document.getElementsByClassName("card")[k].style.background = "black";
-
+        
         bout++;
         if(bout == 2) { 
+          $($(".card")[k]).css("background", "black");
           $($(".card")[k]).text(cards[k]);         //將位置上的數字印出  
           tamp_2 = cards[k];
           cardNum_2 = k;
           
           if(tamp_1 == tamp_2) {
-            setTimeout(doTure, 1000);  
+            setTimeout(doTure, 800);  
           }
           else {
-            setTimeout(doFalse, 1000);   
+            setTimeout(doFalse, 800);   
             }
         }
         else if(bout == 1){
+          $($(".card")[k]).css("background", "black");
           $($(".card")[k]).text(cards[k]);         
           tamp_1 = cards[k];
           cardNum_1 = k;
